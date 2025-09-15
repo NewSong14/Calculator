@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Calculator</title>
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEKLLF7Y6E"></script>
+    <!-- Google Analytics (replace G-XXXXXXXXXX) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-FEKLLF7Y6E');
+        gtag('config', 'G-XXXXXXXXXX');
     </script>
 
     <!-- CSS -->
@@ -19,21 +19,38 @@
 </head>
 <body>
     <div class="calculator-container">
-        <h1>Mini Calculator</h1>
-        <div class="inputs">
-            <input id="num1" type="number" placeholder="First number">
-            <input id="num2" type="number" placeholder="Second number">
-            <select id="operator">
-                <option value="+">+</option>
-                <option value="-">-</option>
-                <option value="*">*</option>
-                <option value="/">/</option>
-                <option value="//">//</option>
-                <option value="%">%</option>
-            </select>
-            <button onclick="calculate()">Calculate</button>
+        <h1>Mini Calculator 🎉</h1>
+        
+        <!-- Digital Screen -->
+        <div id="screen" class="screen">0</div>
+
+        <!-- Calculator Buttons -->
+        <div class="buttons-grid">
+            <!-- Numbers -->
+            <button class="btn num">7</button>
+            <button class="btn num">8</button>
+            <button class="btn num">9</button>
+            <button class="btn op">/</button>
+
+            <button class="btn num">4</button>
+            <button class="btn num">5</button>
+            <button class="btn num">6</button>
+            <button class="btn op">*</button>
+
+            <button class="btn num">1</button>
+            <button class="btn num">2</button>
+            <button class="btn num">3</button>
+            <button class="btn op">-</button>
+
+            <button class="btn num">0</button>
+            <button class="btn op">%</button>
+            <button class="btn op">//</button>
+            <button class="btn op">+</button>
+
+            <!-- Control Buttons -->
+            <button class="btn reset">C</button>
+            <button class="btn calculate">=</button>
         </div>
-        <p id="result">Result: </p>
     </div>
 
     <!-- JS -->
