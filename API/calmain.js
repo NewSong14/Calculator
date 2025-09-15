@@ -11,7 +11,7 @@ let firstOperand = null;
 
 // Function to update display
 function updateDisplay(value) {
-  display.value = value; // simpler and clean
+  display.value = value;
 }
 
 // Reset calculator
@@ -52,6 +52,14 @@ function calculate() {
 // Button clicks
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
+    // Handle fun button first
+    if (btn.id === "fun-button") {
+      const original = display.value;
+      updateDisplay("That button doesn't do anything");
+      setTimeout(() => updateDisplay(original || "0"), 1500);
+      return; // skip all other logic
+    }
+
     const value = btn.dataset.value;
 
     if (value === "C") {
@@ -64,10 +72,6 @@ buttons.forEach(btn => {
       operator = value;
       currentValue = "";
       updateDisplay(operator);
-    } else if (!value && btn.id === "fun-button") {
-      const original = display.value;
-      updateDisplay("That button doesn't do anything");
-      setTimeout(() => updateDisplay(original || "0"), 1500);
     } else {
       currentValue += value;
       updateDisplay(currentValue);
