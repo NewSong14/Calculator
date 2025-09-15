@@ -1,60 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mini Calculator 🚀</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyberpunk Calculator 2035</title>
+  <link rel="stylesheet" href="calstyle.css" />
 
-  <!-- Modern CSS (served from /static/) -->
-  <link rel="stylesheet" href="/static/calstyle.css">
-
-  <!-- Google Analytics: REPLACE G-XXXXXXX with your GA4 ID -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEKLLF7Y6E"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-XXXXXXX');
+    gtag('config', 'G-FEKLLF7Y6E');  <!-- Replace with your actual g-id -->
   </script>
 </head>
 <body>
   <div class="calculator">
-    <!-- digital screen -->
-    <div id="screen" class="screen">0</div>
+    <input type="text" id="display" disabled />
 
-    <!-- buttons grid -->
     <div class="buttons">
-      <!-- row 1 -->
-      <button class="btn num">7</button>
-      <button class="btn num">8</button>
-      <button class="btn num">9</button>
-      <button class="btn op">/</button>
+      <!-- Row 1 -->
+      <button class="clear">C</button>
+      <button class="operator">/</button>
+      <button class="operator">*</button>
+      <button class="operator">-</button>
 
-      <!-- row 2 -->
-      <button class="btn num">4</button>
-      <button class="btn num">5</button>
-      <button class="btn num">6</button>
-      <button class="btn op">*</button>
+      <!-- Row 2 -->
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button class="operator">+</button>
 
-      <!-- row 3 -->
-      <button class="btn num">1</button>
-      <button class="btn num">2</button>
-      <button class="btn num">3</button>
-      <button class="btn op">-</button>
+      <!-- Row 3 -->
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button class="equals">=</button>
 
-      <!-- row 4 -->
-      <button class="btn num">0</button>
-      <button class="btn op">%</button>
-      <button class="btn op">//</button>
-      <button class="btn op">+</button>
+      <!-- Row 4 -->
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>0</button>
 
-      <!-- bottom controls -->
-      <button class="btn reset">C</button>
-      <button class="btn calculate">=</button>
+      <!-- Row 5 -->
+      <button>.</button>
+      <button>%</button>
+      <button>//</button>
     </div>
   </div>
 
-  <!-- JS logic (served from /static/) -->
-  <script src="/static/calmain.js"></script>
+  <script src="calmain.js"></script>
 </body>
 </html>
