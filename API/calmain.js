@@ -1,5 +1,5 @@
 // ================================
-// Modern Calculator 2025 JS
+// Cyberpunk 2035 Calculator JS
 // ================================
 
 const display = document.getElementById("display");
@@ -9,12 +9,22 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Function to update display
+// Function to update display with subtle holographic effect
 function updateDisplay(value) {
-  display.value = value;
+  display.value = ""; // clear
+  value.split("").forEach((char, index) => {
+    const span = document.createElement("span");
+    span.textContent = char;
+    span.style.opacity = 0;
+    span.style.transition = "opacity 0.15s ease-in-out";
+    display.appendChild(span);
+    setTimeout(() => {
+      span.style.opacity = 1; // fade in each digit
+    }, 50 * index);
+  });
 }
 
-// Reset calculator
+// Function to reset calculator
 function resetCalculator() {
   currentValue = "";
   operator = null;
@@ -22,7 +32,7 @@ function resetCalculator() {
   updateDisplay("0");
 }
 
-// Calculate result
+// Function to calculate result
 function calculate() {
   if (!operator || firstOperand === null) return;
   const a = parseFloat(firstOperand);
@@ -49,16 +59,19 @@ function calculate() {
   operator = null;
 }
 
-// Button clicks
+// Button click handling
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
-    // Handle fun button first
+    // Fun button
     if (btn.id === "fun-button") {
       const original = display.value;
       updateDisplay("That button doesn't do anything");
       setTimeout(() => updateDisplay(original || "0"), 1500);
-      return; // skip all other logic
+      return;
     }
+
+    // Skip buttons without data-value
+    if (!btn.dataset.value) return;
 
     const value = btn.dataset.value;
 
@@ -79,10 +92,10 @@ buttons.forEach(btn => {
   });
 });
 
-// Keyboard support
+// Keyboard input support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-  if (key >= "0" && key <= "9" || key === ".") {
+  if ((key >= "0" && key <= "9") || key === ".") {
     currentValue += key;
     updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
@@ -101,5 +114,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize
+// Initialize display
 resetCalculator();
