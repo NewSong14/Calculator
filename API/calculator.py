@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel
 import os
 
 app = FastAPI(title="Mini Calculator API 🚀")
 
-# Mount static folder to serve CSS
+# Serve static files (CSS + JS)
 app.mount("/static", StaticFiles(directory=os.path.dirname(__file__)), name="static")
 
 # Calculator operations
@@ -32,21 +32,14 @@ def home():
 # Calculator endpoint
 @app.post("/calculate")
 def calculate(req: CalcRequest):
-    # Check if operation is valid
     if req.operation not in operations:
         return JSONResponse(status_code=400, content={"error": f"Invalid operator '{req.operation}'"})
-
-    # Perform calculation
+    
     try:
         result = operations[req.operation](req.a, req.b)
-        # Check for division by zero error returned as string
         if isinstance(result, str) and "Error" in result:
             return JSONResponse(status_code=400, content={"error": result})
     except Exception as e:
-        # Catch any unexpected errors
         return JSONResponse(status_code=500, content={"error": f"Unexpected error: {str(e)}"})
-
-    return {
-        "expression": f"{req.a} {req.operation} {req.b}",
-        "result": result
-    }
+    
+    return {"expression": f"{req.a} {req.operation} {req.b}", "result": result}
