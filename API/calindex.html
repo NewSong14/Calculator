@@ -3,8 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mini Calculator 2025</title>
-  <link rel="stylesheet" href="calstyle.css" />
+  <title>Mini Calculator</title>
+  <link rel="stylesheet" href="/static/calstyle.css" />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEKLLF7Y6E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FEKLLF7Y6E');  <!-- Your actual g-id -->
+  </script>
 </head>
 <body>
   <div class="calculator">
@@ -39,10 +48,12 @@
       <button data-value=".">.</button>
       <button class="operator" data-value="%">%</button>
       <button class="operator" data-value="//">//</button>
-      <button class="surprise" data-value="surprise">🎉</button>
+
+      <!-- Fun / Surprise button -->
+      <button class="fun" data-value="fun">🎉</button>
     </div>
   </div>
 
-  <script src="calmain.js"></script>
+  <script src="/static/calmain.js"></script>
 </body>
 </html>
