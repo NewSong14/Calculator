@@ -1,5 +1,5 @@
 // ================================
-// Cyberpunk 2035 Calculator JS
+// Modern 2025 Calculator JS
 // ================================
 
 const display = document.getElementById("display");
@@ -9,14 +9,9 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Update display with holographic animation
+// Update display with simple modern effect
 function updateDisplay(value) {
-  display.value = ""; // clear input
-  value.split("").forEach((char, index) => {
-    setTimeout(() => {
-      display.value += char;
-    }, 30 * index);
-  });
+  display.value = value;  // simple, no extra spans
 }
 
 // Reset calculator
@@ -27,22 +22,26 @@ function resetCalculator() {
   updateDisplay("0");
 }
 
-// Perform calculation
+// Calculate result
 function calculate() {
-  if (!operator || firstOperand === null || currentValue === "") return;
+  if (!operator || firstOperand === null) return;
 
   const a = parseFloat(firstOperand);
   const b = parseFloat(currentValue);
   let result;
 
-  switch (operator) {
-    case "+": result = a + b; break;
-    case "-": result = a - b; break;
-    case "*": result = a * b; break;
-    case "/": result = b !== 0 ? a / b : "Error: Cannot divide by zero"; break;
-    case "//": result = b !== 0 ? Math.floor(a / b) : "Error: Cannot divide by zero"; break;
-    case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
-    default: result = "Error";
+  try {
+    switch (operator) {
+      case "+": result = a + b; break;
+      case "-": result = a - b; break;
+      case "*": result = a * b; break;
+      case "/": result = b !== 0 ? a / b : "Error: Cannot divide by zero"; break;
+      case "//": result = b !== 0 ? Math.floor(a / b) : "Error: Cannot divide by zero"; break;
+      case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
+      default: result = "Error";
+    }
+  } catch (e) {
+    result = "Error";
   }
 
   updateDisplay(result.toString());
@@ -51,7 +50,7 @@ function calculate() {
   operator = null;
 }
 
-// Button click handling
+// Handle button clicks
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
     const value = btn.dataset.value;
@@ -96,5 +95,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize
+// Initialize display
 resetCalculator();
