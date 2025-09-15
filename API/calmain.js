@@ -9,22 +9,17 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Function to update display with subtle holographic effect
+// Update display with holographic animation
 function updateDisplay(value) {
-  display.textContent = ""; // clear
+  display.value = ""; // clear input
   value.split("").forEach((char, index) => {
-    const span = document.createElement("span");
-    span.textContent = char;
-    span.style.opacity = 0;
-    span.style.transition = "opacity 0.15s ease-in-out";
-    display.appendChild(span);
     setTimeout(() => {
-      span.style.opacity = 1; // fade in each digit
-    }, 50 * index);
+      display.value += char;
+    }, 30 * index);
   });
 }
 
-// Function to reset calculator
+// Reset calculator
 function resetCalculator() {
   currentValue = "";
   operator = null;
@@ -32,25 +27,22 @@ function resetCalculator() {
   updateDisplay("0");
 }
 
-// Function to calculate result
+// Perform calculation
 function calculate() {
-  if (!operator || firstOperand === null) return;
+  if (!operator || firstOperand === null || currentValue === "") return;
+
   const a = parseFloat(firstOperand);
   const b = parseFloat(currentValue);
   let result;
 
-  try {
-    switch (operator) {
-      case "+": result = a + b; break;
-      case "-": result = a - b; break;
-      case "*": result = a * b; break;
-      case "/": result = b !== 0 ? a / b : "Error: Cannot divide by zero"; break;
-      case "//": result = b !== 0 ? Math.floor(a / b) : "Error: Cannot divide by zero"; break;
-      case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
-      default: result = "Error";
-    }
-  } catch (e) {
-    result = "Error";
+  switch (operator) {
+    case "+": result = a + b; break;
+    case "-": result = a - b; break;
+    case "*": result = a * b; break;
+    case "/": result = b !== 0 ? a / b : "Error: Cannot divide by zero"; break;
+    case "//": result = b !== 0 ? Math.floor(a / b) : "Error: Cannot divide by zero"; break;
+    case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
+    default: result = "Error";
   }
 
   updateDisplay(result.toString());
@@ -81,10 +73,11 @@ buttons.forEach(btn => {
   });
 });
 
-// Keyboard input support
+// Keyboard support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-  if (key >= "0" && key <= "9" || key === ".") {
+
+  if ((key >= "0" && key <= "9") || key === ".") {
     currentValue += key;
     updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
@@ -103,5 +96,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize display
+// Initialize
 resetCalculator();
