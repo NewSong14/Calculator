@@ -1,113 +1,132 @@
-/* calstyle.css  - Dark, modern 2035 look */
+/* Cyberpunk 2035 Theme Calculator */
 
-/* globals */
-* { box-sizing: border-box; }
-html,body { height:100%; margin:0; font-family: "Segoe UI", Roboto, Arial, sans-serif; }
+/* Import futuristic font */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-/* Page */
 body {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#000 0%, #060606 50%, #040411 100%);
-  color:#fff;
-  -webkit-font-smoothing:antialiased;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    background: radial-gradient(circle at top, #0d0d0d, #000000 90%);
+    background-attachment: fixed;
+    color: #0ff;
 }
 
-/* Calculator shell */
+/* Neon grid overlay (cyberpunk vibe) */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+        0deg, rgba(0, 255, 255, 0.05) 0, rgba(0, 255, 255, 0.05) 1px, transparent 1px, transparent 40px
+    ),
+    repeating-linear-gradient(
+        90deg, rgba(255, 0, 255, 0.05) 0, rgba(255, 0, 255, 0.05) 1px, transparent 1px, transparent 40px
+    );
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Calculator container */
 .calculator {
-  width:360px;
-  padding:22px;
-  border-radius:22px;
-  background: linear-gradient(180deg, rgba(15,15,20,0.9), rgba(5,5,10,0.85));
-  box-shadow:
-    0 8px 40px rgba(0,0,0,0.7),
-    0 0 40px rgba(0,255,150,0.02) inset;
-  backdrop-filter: blur(6px);
-  display:flex;
-  flex-direction:column;
-  gap:18px;
+    position: relative;
+    z-index: 1;
+    background: rgba(20, 20, 20, 0.9);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px #0ff, 0 0 50px #f0f;
+    width: 320px;
 }
 
-/* screen */
-.screen {
-  background: #050505;
-  color: #7CFF6F; /* neon green */
-  font-family: "Courier New", monospace;
-  font-size:2.6rem;
-  padding:14px 16px;
-  border-radius:12px;
-  text-align:right;
-  box-shadow: inset 0 0 18px rgba(124,255,111,0.08), 0 6px 26px rgba(0,0,0,0.6);
-  min-height:56px;
-  overflow:auto;
+/* Display screen */
+#display {
+    width: 100%;
+    height: 60px;
+    background: #000;
+    border: none;
+    border-radius: 10px;
+    text-align: right;
+    font-size: 2rem;
+    color: #0ff;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 20px #0ff, inset 0 0 40px #f0f;
+    font-family: 'Orbitron', sans-serif;
 }
 
-/* buttons grid */
+/* Buttons grid */
 .buttons {
-  display:grid;
-  grid-template-columns: repeat(4,1fr);
-  gap:12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
 }
 
-/* base button */
-.btn {
-  padding:14px;
-  font-size:1.2rem;
-  border-radius:10px;
-  border: none;
-  cursor:pointer;
-  color:#fff;
-  transition: transform .12s ease, box-shadow .12s ease;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.6);
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+/* General button style */
+button {
+    height: 60px;
+    font-size: 1.3rem;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    background: #111;
+    color: #0ff;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 0 10px #0ff, inset 0 0 5px #0ff;
 }
 
-/* hover effect (neon glow) */
-.btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.7), 0 0 18px rgba(124,255,111,0.08);
+/* Glow on hover */
+button:hover {
+    background: #0ff;
+    color: #111;
+    box-shadow: 0 0 20px #0ff, 0 0 30px #f0f;
+    transform: scale(1.05);
 }
 
-/* press */
-.btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+/* Active press effect */
+button:active {
+    transform: scale(0.95);
+    box-shadow: 0 0 10px #f0f, inset 0 0 15px #0ff;
 }
 
-/* number buttons - subtle green */
-.num {
-  background: linear-gradient(180deg,#0b1f12,#07120b);
-  color:#bfffc9;
+/* Special buttons */
+button.operator {
+    background: #222;
+    color: #f0f;
+    box-shadow: 0 0 15px #f0f, inset 0 0 5px #f0f;
 }
 
-/* operator buttons - cyan */
-.op {
-  background: linear-gradient(180deg,#0a2430,#04202a);
-  color:#9ff3ff;
+button.operator:hover {
+    background: #f0f;
+    color: #111;
+    box-shadow: 0 0 25px #f0f, 0 0 40px #0ff;
 }
 
-/* reset - red */
-.reset {
-  background: linear-gradient(180deg,#4b0b0b,#2b0606);
-  color:#fff;
-  grid-column: span 2;
+button.equals {
+    grid-column: span 2;
+    background: #111;
+    color: #0f0;
+    box-shadow: 0 0 15px #0f0, inset 0 0 5px #0f0;
 }
 
-/* calculate - bright green, wider */
-.calculate {
-  background: linear-gradient(180deg,#0b5a22,#063b14);
-  color:#fff;
-  grid-column: span 2;
-  box-shadow: 0 8px 30px rgba(0,255,120,0.12);
-}
-.calculate:hover {
-  box-shadow: 0 12px 36px rgba(0,255,120,0.25);
+button.equals:hover {
+    background: #0f0;
+    color: #111;
+    box-shadow: 0 0 25px #0f0, 0 0 40px #0ff;
 }
 
-/* responsive small screens */
-@media (max-width:420px) {
-  .calculator { width: 92%; padding:16px; }
-  .screen { font-size:2.2rem; }
-  .btn { padding:12px; font-size:1.1rem; }
+button.clear {
+    background: #300;
+    color: #f33;
+    box-shadow: 0 0 15px #f33, inset 0 0 5px #f33;
+}
+
+button.clear:hover {
+    background: #f33;
+    color: #111;
+    box-shadow: 0 0 25px #f33, 0 0 40px #f0f;
 }
