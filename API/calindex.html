@@ -4,27 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Calculator</title>
-
-    <!-- Google Analytics (replace G-XXXXXXXXXX) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
-    </script>
-
-    <!-- CSS -->
     <link rel="stylesheet" href="/static/calstyle.css">
 </head>
 <body>
     <div class="calculator-container">
-        <h1>Mini Calculator 🎉</h1>
-        
-        <!-- Digital Screen -->
+        <h1>Mini Calculator</h1>
         <div id="screen" class="screen">0</div>
 
-        <!-- Calculator Buttons -->
         <div class="buttons-grid">
             <!-- Numbers -->
             <button class="btn num">7</button>
@@ -47,13 +33,11 @@
             <button class="btn op">//</button>
             <button class="btn op">+</button>
 
-            <!-- Control Buttons -->
             <button class="btn reset">C</button>
             <button class="btn calculate">=</button>
         </div>
     </div>
 
-    <!-- JS -->
     <script src="/static/calmain.js"></script>
 </body>
 </html>
