@@ -7,15 +7,14 @@ const opButtons = document.querySelectorAll(".op");
 const resetBtn = document.querySelector(".reset");
 const calcBtn = document.querySelector(".calculate");
 
-let currentInput = "";      // Tracks what user types
-let lastOperator = null;    // Optional for visual feedback
+let currentInput = "";  // Tracks the full expression
 
-// Update screen
+// Update the digital screen
 function updateScreen(value) {
     screen.innerText = value || "0";
 }
 
-// Handle number button click
+// Append number to input
 numButtons.forEach(btn => {
     btn.addEventListener("click", () => {
         currentInput += btn.innerText;
@@ -23,40 +22,30 @@ numButtons.forEach(btn => {
     });
 });
 
-// Handle operator button click
+// Append operator to input
 opButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        if (currentInput.length === 0) return; // prevent starting with operator
+        if (currentInput === "") return; // prevent starting with operator
         currentInput += btn.innerText;
         updateScreen(currentInput);
     });
 });
 
-// Reset button
+// Reset button clears input and screen
 resetBtn.addEventListener("click", () => {
     currentInput = "";
     updateScreen("0");
 });
 
-// Calculate button
-calcBtn.addEventListener("click", async () => {
-    // Simple parser: split last operator from input
-    // This handles only a single operation at a time (like your API)
-    const match = currentInput.match(/(\d+)\s*(\+|\-|\*|\/|%|\/\/)\s*(\d+)/);
-    if (!match) {
-        updateScreen("Invalid input");
-        return;
-    }
-
-    const a = parseInt(match[1]);
-    const op = match[2];
-    const b = parseInt(match[3]);
+// Function to send expression to backend
+async function calculate() {
+    if (currentInput === "") return;
 
     try {
         const response = await fetch("/calculate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ a, b, operation: op })
+            body: JSON.stringify({ expression: currentInput })
         });
 
         const data = await response.json();
@@ -70,5 +59,23 @@ calcBtn.addEventListener("click", async () => {
     } catch (err) {
         updateScreen("Server error");
         console.error(err);
+    }
+}
+
+// "=" button click
+calcBtn.addEventListener("click", calculate);
+
+// Handle Enter key
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        calculate();
+    }
+});
+
+// Optional: allow Backspace key to delete last character
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Backspace") {
+        currentInput = currentInput.slice(0, -1);
+        updateScreen(currentInput);
     }
 });
