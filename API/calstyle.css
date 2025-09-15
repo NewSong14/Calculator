@@ -1,76 +1,87 @@
 /* =========================
-   Cyberpunk 2035 Holographic Calculator
+   Cyberpunk 2035 Modern Holographic Calculator
    ========================= */
 
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at top, #0d0d0d, #111111);
+  background: radial-gradient(circle at top, #0a0a0a, #1a1a1a);
   font-family: "Orbitron", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  overflow: hidden;
 }
 
+/* Calculator container */
 .calculator {
-  background: rgba(26, 26, 26, 0.9);
-  border: 2px solid #0ff;
-  border-radius: 25px;
-  padding: 20px;
-  width: 320px;
-  box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff, 0 0 60px #0ff inset;
-  backdrop-filter: blur(10px);
+  background: rgba(20, 20, 20, 0.85);
+  border-radius: 30px;
+  padding: 25px;
+  width: 340px;
+  box-shadow: 0 0 25px #0ff, 0 0 50px #ff00ff, inset 0 0 30px #0ff;
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* Display */
 #display {
   width: 100%;
-  height: 70px;
-  font-size: 2.2rem;
+  height: 80px;
+  font-size: 2.4rem;
   color: #0ff;
-  background: rgba(17, 17, 17, 0.6);
+  background: rgba(10, 10, 10, 0.5);
   border: 2px solid #0ff;
-  border-radius: 12px;
+  border-radius: 15px;
   padding: 10px;
   text-align: right;
-  box-shadow: inset 0 0 15px #0ff, 0 0 20px #ff00ff;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #ff00ff;
-  letter-spacing: 1px;
+  box-shadow: inset 0 0 20px #0ff, 0 0 30px #ff00ff;
+  text-shadow: 0 0 6px #0ff, 0 0 12px #ff00ff;
+  letter-spacing: 1.2px;
   backdrop-filter: blur(5px);
 }
 
+/* Buttons grid */
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 12px;
-  margin-top: 20px;
+  grid-gap: 14px;
+  margin-top: 25px;
+  width: 100%;
 }
 
+/* Button base style */
 button {
-  padding: 20px;
-  font-size: 1.2rem;
+  padding: 22px;
+  font-size: 1.3rem;
   font-weight: bold;
   color: #0ff;
-  background: rgba(17, 17, 17, 0.6);
+  background: rgba(10, 10, 10, 0.55);
   border: 2px solid #0ff;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
-  transition: 0.2s all;
-  box-shadow: 0 0 10px #0ff, 0 0 15px #ff00ff;
-  text-shadow: 0 0 3px #0ff, 0 0 6px #ff00ff;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 12px #0ff, 0 0 25px #ff00ff;
+  text-shadow: 0 0 4px #0ff, 0 0 8px #ff00ff;
 }
 
+/* Hover effect */
 button:hover {
-  background: rgba(0, 255, 255, 0.3);
+  background: rgba(0, 255, 255, 0.25);
   color: #111;
-  box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff;
+  box-shadow: 0 0 25px #0ff, 0 0 50px #ff00ff;
 }
 
+/* Press effect */
 button:active {
   transform: scale(0.95);
   box-shadow: 0 0 10px #0ff, 0 0 20px #ff00ff inset;
 }
 
+/* Operator buttons */
 .operator {
   background: rgba(255, 0, 255, 0.6);
   color: #111;
@@ -78,12 +89,12 @@ button:active {
 }
 
 .operator:hover {
-  background: rgba(0, 255, 255, 0.3);
-  color: #111;
+  background: rgba(0, 255, 255, 0.25);
   border-color: #0ff;
-  box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff;
+  box-shadow: 0 0 25px #0ff, 0 0 50px #ff00ff;
 }
 
+/* Clear button */
 .clear {
   background: rgba(255, 0, 0, 0.6);
   color: #111;
@@ -92,9 +103,10 @@ button:active {
 
 .clear:hover {
   background: rgba(255, 85, 85, 0.6);
-  box-shadow: 0 0 20px #ff5555, 0 0 40px #ff00ff;
+  box-shadow: 0 0 25px #ff5555, 0 0 50px #ff00ff;
 }
 
+/* Equals button */
 .equals {
   background: rgba(0, 255, 0, 0.6);
   color: #111;
@@ -103,19 +115,19 @@ button:active {
 
 .equals:hover {
   background: rgba(85, 255, 85, 0.6);
-  box-shadow: 0 0 20px #00ff00, 0 0 40px #ff00ff;
+  box-shadow: 0 0 25px #00ff00, 0 0 50px #ff00ff;
 }
 
 /* Neon pulse animation */
 @keyframes neonGlow {
   0%, 100% {
-    box-shadow: 0 0 10px #0ff, 0 0 20px #ff00ff;
+    box-shadow: 0 0 12px #0ff, 0 0 25px #ff00ff;
   }
   50% {
-    box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff;
+    box-shadow: 0 0 25px #0ff, 0 0 50px #ff00ff;
   }
 }
 
 button {
-  animation: neonGlow 1.5s infinite alternate;
+  animation: neonGlow 1.2s infinite alternate;
 }
