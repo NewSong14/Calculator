@@ -1,3 +1,7 @@
+// ================================
+// Mini Calculator JS
+// ================================
+
 const display = document.getElementById("display");
 const buttons = document.querySelectorAll(".buttons button");
 
@@ -5,7 +9,7 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Update display
+// Function to update display
 function updateDisplay(value) {
   display.value = value;
 }
@@ -35,7 +39,7 @@ function calculate() {
       case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
       default: result = "Error";
     }
-  } catch {
+  } catch (e) {
     result = "Error";
   }
 
@@ -54,8 +58,8 @@ buttons.forEach(btn => {
       resetCalculator();
     } else if (value === "=") {
       calculate();
-    } else if (value === "surprise") {
-      alert("That button doesn't do anything… or does it? 😎");
+    } else if (value === "fun") {
+      alert("That button doesn’t do anything 😄");
     } else if (["+", "-", "*", "/", "//", "%"].includes(value)) {
       if (currentValue === "") return;
       firstOperand = currentValue;
@@ -72,7 +76,7 @@ buttons.forEach(btn => {
 // Keyboard input support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-  if (key >= "0" && key <= "9" || key === ".") {
+  if ((key >= "0" && key <= "9") || key === ".") {
     currentValue += key;
     updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
@@ -91,5 +95,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize display
+// Initialize
 resetCalculator();
