@@ -1,5 +1,5 @@
 // ================================
-// Modern Calculator JS
+// Calculator JS with Fun Button
 // ================================
 
 const display = document.getElementById("display");
@@ -9,12 +9,16 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Function to update display
+// Normal font size for display
+const normalFontSize = "2rem";
+
+// Function to update display (numbers/operators)
 function updateDisplay(value) {
-  display.value = value;
+  display.style.fontSize = normalFontSize; // restore normal font size
+  display.textContent = value;
 }
 
-// Reset calculator
+// Function to reset calculator
 function resetCalculator() {
   currentValue = "";
   operator = null;
@@ -22,7 +26,7 @@ function resetCalculator() {
   updateDisplay("0");
 }
 
-// Calculate result
+// Function to calculate result
 function calculate() {
   if (!operator || firstOperand === null) return;
   const a = parseFloat(firstOperand);
@@ -58,20 +62,18 @@ buttons.forEach(btn => {
       resetCalculator();
     } else if (value === "=") {
       calculate();
+    } else if (value === "FUN") {
+      // Show fun message in smaller font
+      display.style.fontSize = "1.2rem";
+      updateDisplay("This button doesn't do anything");
+      // Reset back after 2.5 seconds
+      setTimeout(() => updateDisplay(currentValue || "0"), 2500);
     } else if (["+", "-", "*", "/", "//", "%"].includes(value)) {
       if (currentValue === "") return;
       firstOperand = currentValue;
       operator = value;
       currentValue = "";
       updateDisplay(operator);
-    } else if (value === "fun") {
-      const previousValue = currentValue || "0";
-      updateDisplay("That button doesn't do anything 😄");
-
-      // Show message for 2 seconds then revert
-      setTimeout(() => {
-        updateDisplay(previousValue);
-      }, 2000);
     } else {
       currentValue += value;
       updateDisplay(currentValue);
@@ -82,7 +84,7 @@ buttons.forEach(btn => {
 // Keyboard input support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-  if ((key >= "0" && key <= "9") || key === ".") {
+  if (key >= "0" && key <= "9" || key === ".") {
     currentValue += key;
     updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
