@@ -1,81 +1,62 @@
-// calmain.js
-
-// Get references
 const screen = document.getElementById("screen");
 const numButtons = document.querySelectorAll(".num");
 const opButtons = document.querySelectorAll(".op");
 const resetBtn = document.querySelector(".reset");
 const calcBtn = document.querySelector(".calculate");
 
-let currentInput = "";  // Tracks the full expression
+let a = "";
+let b = "";
+let operator = "";
+let resultShown = false;
 
-// Update the digital screen
 function updateScreen(value) {
     screen.innerText = value || "0";
 }
 
-// Append number to input
+// Numbers
 numButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        currentInput += btn.innerText;
-        updateScreen(currentInput);
+        if (resultShown) { a = ""; b = ""; operator = ""; resultShown = false; }
+        if (!operator) { a += btn.innerText; updateScreen(a); }
+        else { b += btn.innerText; updateScreen(b); }
     });
 });
 
-// Append operator to input
+// Operators
 opButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        if (currentInput === "") return; // prevent starting with operator
-        currentInput += btn.innerText;
-        updateScreen(currentInput);
+        if (!a) return;
+        operator = btn.innerText;
+        updateScreen(operator);
     });
 });
 
-// Reset button clears input and screen
-resetBtn.addEventListener("click", () => {
-    currentInput = "";
-    updateScreen("0");
-});
+// Reset
+resetBtn.addEventListener("click", () => { a=""; b=""; operator=""; updateScreen("0"); });
 
-// Function to send expression to backend
+// Calculate
 async function calculate() {
-    if (currentInput === "") return;
+    if (!a || !b || !operator) return;
 
     try {
         const response = await fetch("/calculate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ expression: currentInput })
+            body: JSON.stringify({ a: parseInt(a), b: parseInt(b), operation: operator })
         });
 
         const data = await response.json();
 
-        if (data.error) {
-            updateScreen(data.error);
-        } else {
-            currentInput = data.result.toString();
-            updateScreen(currentInput);
-        }
+        if (data.error) { updateScreen(data.error); }
+        else { a = data.result.toString(); b=""; operator=""; resultShown=true; updateScreen(a); }
     } catch (err) {
         updateScreen("Server error");
         console.error(err);
     }
 }
 
-// "=" button click
+// "=" button
 calcBtn.addEventListener("click", calculate);
 
-// Handle Enter key
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        calculate();
-    }
-});
-
-// Optional: allow Backspace key to delete last character
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Backspace") {
-        currentInput = currentInput.slice(0, -1);
-        updateScreen(currentInput);
-    }
-});
+// Enter key
+document.addEventListener("keydown", (event) => { if(event.key==="Enter") calculate(); });
