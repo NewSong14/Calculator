@@ -1,99 +1,77 @@
-// ================================
-// Modern Calculator 2025 JS
-// ================================
+document.addEventListener("DOMContentLoaded", () => {
+  const display = document.getElementById("display");
+  let currentInput = "";
 
-const display = document.getElementById("display");
-const buttons = document.querySelectorAll(".buttons button");
-
-let currentValue = "";
-let operator = null;
-let firstOperand = null;
-
-// Function to update display
-function updateDisplay(value) {
-  display.value = value;
-}
-
-// Reset calculator
-function resetCalculator() {
-  currentValue = "";
-  operator = null;
-  firstOperand = null;
-  updateDisplay("0");
-}
-
-// Calculate result
-function calculate() {
-  if (!operator || firstOperand === null) return;
-  const a = parseFloat(firstOperand);
-  const b = parseFloat(currentValue);
-  let result;
-
-  try {
-    switch (operator) {
-      case "+": result = a + b; break;
-      case "-": result = a - b; break;
-      case "*": result = a * b; break;
-      case "/": result = b !== 0 ? a / b : "Error: Cannot divide by zero"; break;
-      case "//": result = b !== 0 ? Math.floor(a / b) : "Error: Cannot divide by zero"; break;
-      case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
-      default: result = "Error";
-    }
-  } catch (e) {
-    result = "Error";
+  function updateDisplay(value) {
+    display.value = value;
   }
 
-  updateDisplay(result.toString());
-  currentValue = result.toString();
-  firstOperand = null;
-  operator = null;
-}
-
-// Button click handling
-buttons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const value = btn.dataset.value;
-
+  function handleInput(value) {
     if (value === "C") {
-      resetCalculator();
+      currentInput = "";
+      updateDisplay("0");
     } else if (value === "=") {
-      calculate();
-    } else if (["+", "-", "*", "/", "//", "%"].includes(value)) {
-      if (currentValue === "") return;
-      firstOperand = currentValue;
-      operator = value;
-      currentValue = "";
-      updateDisplay(operator);
+      try {
+        fetch("/calculate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(parseInput(currentInput)),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) {
+              updateDisplay("Error");
+              currentInput = "";
+            } else {
+              updateDisplay(data.result);
+              currentInput = String(data.result);
+            }
+          });
+      } catch {
+        updateDisplay("Error");
+        currentInput = "";
+      }
     } else if (value === "fun") {
-      updateDisplay("This button doesn't do anything");
+      // Show smaller "fun" message in display
+      display.style.fontSize = "0.8rem";
+      updateDisplay("this button doesn't do anything");
     } else {
-      currentValue += value;
-      updateDisplay(currentValue);
+      // Reset font size if normal input
+      display.style.fontSize = "1.2rem";
+      currentInput += value;
+      updateDisplay(currentInput);
+    }
+  }
+
+  function parseInput(input) {
+    const match = input.match(/(-?\d+(\.\d+)?)([+\-*/%]{1,2})(-?\d+(\.\d+)?)/);
+    if (!match) return { a: 0, b: 0, operation: "+" };
+    return {
+      a: parseFloat(match[1]),
+      b: parseFloat(match[4]),
+      operation: match[3],
+    };
+  }
+
+  // Button clicks
+  document.querySelectorAll(".buttons button").forEach((button) => {
+    button.addEventListener("click", () => handleInput(button.dataset.value));
+  });
+
+  // Keyboard input
+  document.addEventListener("keydown", (e) => {
+    if (/[0-9+\-*/.%]/.test(e.key)) {
+      handleInput(e.key);
+    } else if (e.key === "Enter") {
+      handleInput("=");
+    } else if (e.key === "Backspace") {
+      currentInput = currentInput.slice(0, -1);
+      updateDisplay(currentInput || "0");
+    } else if (e.key.toLowerCase() === "f") {
+      handleInput("fun");
     }
   });
-});
 
-// Keyboard input support
-document.addEventListener("keydown", (e) => {
-  const key = e.key;
-  if ((key >= "0" && key <= "9") || key === ".") {
-    currentValue += key;
-    updateDisplay(currentValue);
-  } else if (["+", "-", "*", "/", "%"].includes(key)) {
-    if (currentValue === "") return;
-    firstOperand = currentValue;
-    operator = key;
-    currentValue = "";
-    updateDisplay(operator);
-  } else if (key === "Enter") {
-    calculate();
-  } else if (key === "Backspace") {
-    currentValue = currentValue.slice(0, -1);
-    updateDisplay(currentValue || "0");
-  } else if (key.toLowerCase() === "c") {
-    resetCalculator();
-  }
+  // Initialize display
+  updateDisplay("0");
 });
-
-// Initialize display
-resetCalculator();
