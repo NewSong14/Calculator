@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="calculator-container">
-        <h1>Mini Calculator UI 🚀</h1>
+        <h1>Mini Calculator 🚀</h1>
         <input type="number" id="a" placeholder="Enter first number">
         <input type="number" id="b" placeholder="Enter second number">
         <select id="operation">
@@ -21,21 +21,6 @@
         <h2 id="result"></h2>
     </div>
 
-    <script>
-    async function calculate() {
-        const a = Number(document.getElementById("a").value);
-        const b = Number(document.getElementById("b").value);
-        const op = document.getElementById("operation").value;
-
-        const response = await fetch("/calculate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({a: a, b: b, operation: op})
-        });
-
-        const data = await response.json();
-        document.getElementById("result").innerText = "Result: " + data.result;
-    }
-    </script>
+    <script src="/static/calmain.js"></script>
 </body>
 </html>
