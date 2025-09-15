@@ -1,7 +1,3 @@
-// ================================
-// Cyberpunk 2035 Calculator JS
-// ================================
-
 const display = document.getElementById("display");
 const buttons = document.querySelectorAll(".buttons button");
 
@@ -9,22 +5,12 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Function to update display with subtle holographic effect
+// Update display
 function updateDisplay(value) {
-  display.value = ""; // clear
-  value.split("").forEach((char, index) => {
-    const span = document.createElement("span");
-    span.textContent = char;
-    span.style.opacity = 0;
-    span.style.transition = "opacity 0.15s ease-in-out";
-    display.appendChild(span);
-    setTimeout(() => {
-      span.style.opacity = 1; // fade in each digit
-    }, 50 * index);
-  });
+  display.value = value;
 }
 
-// Function to reset calculator
+// Reset calculator
 function resetCalculator() {
   currentValue = "";
   operator = null;
@@ -32,7 +18,7 @@ function resetCalculator() {
   updateDisplay("0");
 }
 
-// Function to calculate result
+// Calculate result
 function calculate() {
   if (!operator || firstOperand === null) return;
   const a = parseFloat(firstOperand);
@@ -49,7 +35,7 @@ function calculate() {
       case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
       default: result = "Error";
     }
-  } catch (e) {
+  } catch {
     result = "Error";
   }
 
@@ -62,23 +48,14 @@ function calculate() {
 // Button click handling
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
-    // Fun button
-    if (btn.id === "fun-button") {
-      const original = display.value;
-      updateDisplay("That button doesn't do anything");
-      setTimeout(() => updateDisplay(original || "0"), 1500);
-      return;
-    }
-
-    // Skip buttons without data-value
-    if (!btn.dataset.value) return;
-
     const value = btn.dataset.value;
 
     if (value === "C") {
       resetCalculator();
     } else if (value === "=") {
       calculate();
+    } else if (value === "surprise") {
+      alert("That button doesn't do anything… or does it? 😎");
     } else if (["+", "-", "*", "/", "//", "%"].includes(value)) {
       if (currentValue === "") return;
       firstOperand = currentValue;
@@ -95,7 +72,7 @@ buttons.forEach(btn => {
 // Keyboard input support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-  if ((key >= "0" && key <= "9") || key === ".") {
+  if (key >= "0" && key <= "9" || key === ".") {
     currentValue += key;
     updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
