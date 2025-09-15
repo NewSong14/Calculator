@@ -1,26 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mini Calculator</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEKLLF7Y6E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FEKLLF7Y6E');
+    </script>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="/static/calstyle.css">
 </head>
 <body>
     <div class="calculator-container">
-        <h1>Mini Calculator 🚀</h1>
-        <input type="number" id="a" placeholder="Enter first number">
-        <input type="number" id="b" placeholder="Enter second number">
-        <select id="operation">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-            <option value="//">//</option>
-            <option value="%">%</option>
-        </select>
-        <button onclick="calculate()">Calculate</button>
-        <h2 id="result"></h2>
+        <h1>Mini Calculator</h1>
+        <div class="inputs">
+            <input id="num1" type="number" placeholder="First number">
+            <input id="num2" type="number" placeholder="Second number">
+            <select id="operator">
+                <option value="+">+</option>
+                <option value="-">-</option>
+                <option value="*">*</option>
+                <option value="/">/</option>
+                <option value="//">//</option>
+                <option value="%">%</option>
+            </select>
+            <button onclick="calculate()">Calculate</button>
+        </div>
+        <p id="result">Result: </p>
     </div>
 
+    <!-- JS -->
     <script src="/static/calmain.js"></script>
 </body>
 </html>
