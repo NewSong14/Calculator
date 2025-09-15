@@ -32,11 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
         currentInput = "";
       }
     } else if (value === "fun") {
-      // Show smaller "fun" message in display
+      // Show smaller "fun" message temporarily, then reset to 0
       display.style.fontSize = "0.8rem";
       updateDisplay("this button doesn't do anything");
+
+      setTimeout(() => {
+        display.style.fontSize = "1.2rem";
+        currentInput = "";
+        updateDisplay("0");
+      }, 2000);
     } else {
-      // Reset font size if normal input
+      // Reset font size for normal inputs
       display.style.fontSize = "1.2rem";
       currentInput += value;
       updateDisplay(currentInput);
