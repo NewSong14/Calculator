@@ -19,7 +19,7 @@ body {
   border-radius: 25px;
   padding: 20px;
   width: 320px;
-  box-shadow: 0 0 20px #ff4c4c, 0 0 40px #ff7f50, 0 0 60px #ff4c4c inset;
+  box-shadow: 0 0 20px #330a0a, 0 0 40px #551111 inset;
   backdrop-filter: blur(10px);
 }
 
@@ -33,8 +33,8 @@ body {
   border-radius: 12px;
   padding: 10px;
   text-align: right;
-  box-shadow: inset 0 0 15px #ff4c4c, 0 0 20px #ff7f50;
-  text-shadow: 0 0 5px #ff4c4c, 0 0 10px #ff7f50;
+  box-shadow: inset 0 0 15px #330a0a, 0 0 20px #551111;
+  text-shadow: 0 0 3px #ff4c4c, 0 0 6px #ff7f50;
   letter-spacing: 1px;
   backdrop-filter: blur(5px);
 }
@@ -57,19 +57,15 @@ button {
   border-radius: 12px;
   cursor: pointer;
   transition: 0.2s all;
-  box-shadow: 0 0 10px #ff4c4c, 0 0 15px #ff7f50;
-  text-shadow: 0 0 3px #ff4c4c, 0 0 6px #ff7f50;
 }
 
 button:hover {
   background: rgba(255, 76, 76, 0.3);
   color: #111;
-  box-shadow: 0 0 20px #ff4c4c, 0 0 40px #ff7f50;
 }
 
 button:active {
   transform: scale(0.95);
-  box-shadow: 0 0 10px #ff4c4c, 0 0 20px #ff7f50 inset;
 }
 
 /* Specific button colors */
@@ -83,7 +79,6 @@ button:active {
   background: rgba(0, 255, 255, 0.3);
   color: #111;
   border-color: #0ff;
-  box-shadow: 0 0 20px #0ff, 0 0 40px #ff00ff;
 }
 
 .clear {
@@ -94,7 +89,6 @@ button:active {
 
 .clear:hover {
   background: rgba(255, 85, 85, 0.6);
-  box-shadow: 0 0 20px #ff5555, 0 0 40px #ff00ff;
 }
 
 .equals {
@@ -105,19 +99,4 @@ button:active {
 
 .equals:hover {
   background: rgba(85, 255, 85, 0.6);
-  box-shadow: 0 0 20px #00ff00, 0 0 40px #ff00ff;
-}
-
-/* Neon pulse animation */
-@keyframes neonGlow {
-  0%, 100% {
-    box-shadow: 0 0 10px #ff4c4c, 0 0 20px #ff7f50;
-  }
-  50% {
-    box-shadow: 0 0 20px #ff4c4c, 0 0 40px #ff7f50;
-  }
-}
-
-button {
-  animation: neonGlow 1.5s infinite alternate;
 }
