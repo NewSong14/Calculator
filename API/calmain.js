@@ -1,116 +1,107 @@
-// ======================
-// Calculator Frontend JS
-// ======================
+// ================================
+// Cyberpunk 2035 Calculator JS
+// ================================
 
-// Grab references
 const display = document.getElementById("display");
-const buttons = document.querySelectorAll(".btn");
-const resetBtn = document.getElementById("reset");
+const buttons = document.querySelectorAll(".buttons button");
 
-// Variables to hold inputs
-let currentInput = "";
-let operator = "";
+let currentValue = "";
+let operator = null;
 let firstOperand = null;
 
-// Function to update the display
+// Function to update display with subtle holographic effect
 function updateDisplay(value) {
-  display.innerText = value;
+  display.textContent = ""; // clear
+  value.split("").forEach((char, index) => {
+    const span = document.createElement("span");
+    span.textContent = char;
+    span.style.opacity = 0;
+    span.style.transition = "opacity 0.15s ease-in-out";
+    display.appendChild(span);
+    setTimeout(() => {
+      span.style.opacity = 1; // fade in each digit
+    }, 50 * index);
+  });
 }
 
-// Function to send GA event
-function trackEvent(action, label) {
-  if (window.gtag) {
-    gtag("event", action, {
-      event_category: "Calculator",
-      event_label: label,
-    });
+// Function to reset calculator
+function resetCalculator() {
+  currentValue = "";
+  operator = null;
+  firstOperand = null;
+  updateDisplay("0");
+}
+
+// Function to calculate result
+function calculate() {
+  if (!operator || firstOperand === null) return;
+  const a = parseFloat(firstOperand);
+  const b = parseFloat(currentValue);
+  let result;
+
+  try {
+    switch (operator) {
+      case "+": result = a + b; break;
+      case "-": result = a - b; break;
+      case "*": result = a * b; break;
+      case "/": result = b !== 0 ? a / b : "Error: Cannot divide by zero"; break;
+      case "//": result = b !== 0 ? Math.floor(a / b) : "Error: Cannot divide by zero"; break;
+      case "%": result = b !== 0 ? a % b : "Error: Cannot divide by zero"; break;
+      default: result = "Error";
+    }
+  } catch (e) {
+    result = "Error";
   }
+
+  updateDisplay(result.toString());
+  currentValue = result.toString();
+  firstOperand = null;
+  operator = null;
 }
 
-// Handle button clicks
-buttons.forEach((btn) => {
+// Button click handling
+buttons.forEach(btn => {
   btn.addEventListener("click", () => {
     const value = btn.dataset.value;
 
-    // Number pressed
-    if (!isNaN(value) || value === ".") {
-      currentInput += value;
-      updateDisplay(currentInput);
-      trackEvent("button_press", value); // GA tracking
-    }
-
-    // Operator pressed
-    else if (["+", "-", "*", "/", "%", "//"].includes(value)) {
-      if (currentInput !== "") {
-        firstOperand = parseFloat(currentInput);
-        currentInput = "";
-        operator = value;
-        updateDisplay(operator);
-        trackEvent("operator_press", operator); // GA tracking
-      }
-    }
-
-    // Equals pressed
-    else if (value === "=") {
-      if (firstOperand !== null && currentInput !== "" && operator !== "") {
-        const secondOperand = parseFloat(currentInput);
-
-        fetch("/calculate", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ a: firstOperand, b: secondOperand, operation: operator }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.result !== undefined) {
-              updateDisplay(data.result);
-              trackEvent("calculation", `${firstOperand} ${operator} ${secondOperand} = ${data.result}`);
-            } else if (data.error) {
-              updateDisplay(data.error);
-              trackEvent("error", data.error);
-            }
-          });
-
-        firstOperand = null;
-        currentInput = "";
-        operator = "";
-      }
+    if (value === "C") {
+      resetCalculator();
+    } else if (value === "=") {
+      calculate();
+    } else if (["+", "-", "*", "/", "//", "%"].includes(value)) {
+      if (currentValue === "") return;
+      firstOperand = currentValue;
+      operator = value;
+      currentValue = "";
+      updateDisplay(operator);
+    } else {
+      currentValue += value;
+      updateDisplay(currentValue);
     }
   });
 });
 
-// Reset button
-resetBtn.addEventListener("click", () => {
-  currentInput = "";
-  operator = "";
-  firstOperand = null;
-  updateDisplay("0");
-  trackEvent("reset", "Calculator cleared"); // GA tracking
-});
-
-// Keyboard support
+// Keyboard input support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-
-  if (!isNaN(key) || key === ".") {
-    currentInput += key;
-    updateDisplay(currentInput);
-    trackEvent("key_press", key);
+  if (key >= "0" && key <= "9" || key === ".") {
+    currentValue += key;
+    updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
-    if (currentInput !== "") {
-      firstOperand = parseFloat(currentInput);
-      currentInput = "";
-      operator = key;
-      updateDisplay(operator);
-      trackEvent("operator_key", operator);
-    }
+    if (currentValue === "") return;
+    firstOperand = currentValue;
+    operator = key;
+    currentValue = "";
+    updateDisplay(operator);
   } else if (key === "Enter") {
-    document.querySelector("[data-value='=']").click();
-  } else if (key === "c" || key === "C") {
-    resetBtn.click();
+    calculate();
   } else if (key === "Backspace") {
-    currentInput = currentInput.slice(0, -1);
-    updateDisplay(currentInput || "0");
-    trackEvent("backspace", "One char deleted");
+    currentValue = currentValue.slice(0, -1);
+    updateDisplay(currentValue || "0");
+  } else if (key.toLowerCase() === "c") {
+    resetCalculator();
   }
 });
+
+// Initialize display
+resetCalculator();
