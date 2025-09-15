@@ -12,42 +12,42 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-FEKLLF7Y6E');  <!-- Replace with your actual g-id -->
+    gtag('config', 'G-FEKLLF7Y6E');  <!-- Your actual g-id -->
   </script>
 </head>
 <body>
   <div class="calculator">
-    <input type="text" id="display" disabled />
+    <input type="text" id="display" disabled value="0" />
 
     <div class="buttons">
       <!-- Row 1 -->
-      <button class="clear">C</button>
-      <button class="operator">/</button>
-      <button class="operator">*</button>
-      <button class="operator">-</button>
+      <button class="clear" data-value="C">C</button>
+      <button class="operator" data-value="/">/</button>
+      <button class="operator" data-value="*">*</button>
+      <button class="operator" data-value="-">-</button>
 
       <!-- Row 2 -->
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button class="operator">+</button>
+      <button data-value="7">7</button>
+      <button data-value="8">8</button>
+      <button data-value="9">9</button>
+      <button class="operator" data-value="+">+</button>
 
       <!-- Row 3 -->
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button class="equals">=</button>
+      <button data-value="4">4</button>
+      <button data-value="5">5</button>
+      <button data-value="6">6</button>
+      <button class="equals" data-value="=">=</button>
 
       <!-- Row 4 -->
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>0</button>
+      <button data-value="1">1</button>
+      <button data-value="2">2</button>
+      <button data-value="3">3</button>
+      <button data-value="0">0</button>
 
       <!-- Row 5 -->
-      <button>.</button>
-      <button>%</button>
-      <button>//</button>
+      <button data-value=".">.</button>
+      <button class="operator" data-value="%">%</button>
+      <button class="operator" data-value="//">//</button>
     </div>
   </div>
 
