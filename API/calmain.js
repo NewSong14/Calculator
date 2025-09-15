@@ -1,5 +1,5 @@
 // ================================
-// Modern 2025 Calculator JS
+// Modern Calculator 2025 JS
 // ================================
 
 const display = document.getElementById("display");
@@ -9,9 +9,9 @@ let currentValue = "";
 let operator = null;
 let firstOperand = null;
 
-// Update display with simple modern effect
+// Function to update display
 function updateDisplay(value) {
-  display.value = value;  // simple, no extra spans
+  display.value = value; // simpler and clean
 }
 
 // Reset calculator
@@ -25,7 +25,6 @@ function resetCalculator() {
 // Calculate result
 function calculate() {
   if (!operator || firstOperand === null) return;
-
   const a = parseFloat(firstOperand);
   const b = parseFloat(currentValue);
   let result;
@@ -50,7 +49,7 @@ function calculate() {
   operator = null;
 }
 
-// Handle button clicks
+// Button clicks
 buttons.forEach(btn => {
   btn.addEventListener("click", () => {
     const value = btn.dataset.value;
@@ -65,6 +64,10 @@ buttons.forEach(btn => {
       operator = value;
       currentValue = "";
       updateDisplay(operator);
+    } else if (!value && btn.id === "fun-button") {
+      const original = display.value;
+      updateDisplay("That button doesn't do anything");
+      setTimeout(() => updateDisplay(original || "0"), 1500);
     } else {
       currentValue += value;
       updateDisplay(currentValue);
@@ -75,8 +78,7 @@ buttons.forEach(btn => {
 // Keyboard support
 document.addEventListener("keydown", (e) => {
   const key = e.key;
-
-  if ((key >= "0" && key <= "9") || key === ".") {
+  if (key >= "0" && key <= "9" || key === ".") {
     currentValue += key;
     updateDisplay(currentValue);
   } else if (["+", "-", "*", "/", "%"].includes(key)) {
@@ -95,5 +97,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize display
+// Initialize
 resetCalculator();
