@@ -1,164 +1,116 @@
-// calmain.js
-// Simple UI logic that mirrors your console calculator behaviour:
-// - a, b, operator (one operation at a time)
-// - result becomes new `a`
-// - supports clicks + physical keyboard (0-9, + - * / %, Enter, Backspace, C)
+// ======================
+// Calculator Frontend JS
+// ======================
 
-const screen = document.getElementById("screen");
+// Grab references
+const display = document.getElementById("display");
+const buttons = document.querySelectorAll(".btn");
+const resetBtn = document.getElementById("reset");
 
-// state variables (strings so we can append digits)
-let a = "";
-let b = "";
+// Variables to hold inputs
+let currentInput = "";
 let operator = "";
-let resultShown = false; // when true, next number clears and starts new calc
+let firstOperand = null;
 
-// update the digital screen (show "0" if empty)
-function updateScreen(val) {
-  screen.textContent = val === "" || val === undefined ? "0" : String(val);
+// Function to update the display
+function updateDisplay(value) {
+  display.innerText = value;
 }
 
-// ---------- Number button clicks ----------
-document.querySelectorAll(".num").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (resultShown) { // after showing result, start fresh on next number
-      a = ""; b = ""; operator = ""; resultShown = false;
-    }
-    if (!operator) {
-      a += btn.textContent;
-      updateScreen(a);
-    } else {
-      b += btn.textContent;
-      updateScreen(b);
-    }
-  });
-});
-
-// ---------- Operator button clicks ----------
-document.querySelectorAll(".op").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const op = btn.textContent;
-    if (!a) return;            // don't allow operator first
-    if (operator && b) {       // if already have a full a,op,b -> compute first
-      calculate();             // uses the same calculate() below
-      operator = op;           // then set the new operator
-    } else {
-      operator = op;
-    }
-    updateScreen(operator);
-  });
-});
-
-// ---------- Reset ----------
-document.querySelector(".reset").addEventListener("click", () => {
-  a = ""; b = ""; operator = ""; resultShown = false;
-  updateScreen("0");
-});
-
-// ---------- Calculate (send to backend) ----------
-async function calculate() {
-  // require a, operator, b
-  if (!a || !operator || !b) return;
-
-  // parse ints (keeps parity with your original console code)
-  const ai = parseInt(a, 10);
-  const bi = parseInt(b, 10);
-
-  try {
-    const resp = await fetch("/calculate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ a: ai, b: bi, operation: operator })
+// Function to send GA event
+function trackEvent(action, label) {
+  if (window.gtag) {
+    gtag("event", action, {
+      event_category: "Calculator",
+      event_label: label,
     });
-    const data = await resp.json();
-
-    if (data.error) {
-      // show server error message (e.g., division by zero or invalid operator)
-      updateScreen(data.error);
-    } else {
-      // show result and set up for next calculation (result becomes new a)
-      a = String(data.result);
-      b = "";
-      operator = "";
-      resultShown = true;
-      updateScreen(a);
-    }
-  } catch (err) {
-    updateScreen("Server error");
-    console.error("Calculate error:", err);
   }
 }
 
-document.querySelector(".calculate").addEventListener("click", calculate);
+// Handle button clicks
+buttons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const value = btn.dataset.value;
 
-// ---------- Keyboard support ----------
-document.addEventListener("keydown", (ev) => {
-  const key = ev.key;
-
-  // if user types while result is shown, start fresh
-  if (resultShown && key >= "0" && key <= "9") {
-    a = ""; b = ""; operator = ""; resultShown = false;
-  }
-
-  // Numbers 0-9
-  if (key >= "0" && key <= "9") {
-    ev.preventDefault();
-    if (!operator) {
-      a += key;
-      updateScreen(a);
-    } else {
-      b += key;
-      updateScreen(b);
+    // Number pressed
+    if (!isNaN(value) || value === ".") {
+      currentInput += value;
+      updateDisplay(currentInput);
+      trackEvent("button_press", value); // GA tracking
     }
-    return;
-  }
 
-  // Operators (single-char). Note: '//' floor div is available via its button.
-  if (["+", "-", "*", "/", "%"].includes(key)) {
-    ev.preventDefault();
-    if (!a) return;
-    if (operator && b) {
-      // compute first if user chains operator keys
-      calculate().then(() => {
-        operator = key;
-        updateScreen(operator);
-      });
-    } else {
+    // Operator pressed
+    else if (["+", "-", "*", "/", "%", "//"].includes(value)) {
+      if (currentInput !== "") {
+        firstOperand = parseFloat(currentInput);
+        currentInput = "";
+        operator = value;
+        updateDisplay(operator);
+        trackEvent("operator_press", operator); // GA tracking
+      }
+    }
+
+    // Equals pressed
+    else if (value === "=") {
+      if (firstOperand !== null && currentInput !== "" && operator !== "") {
+        const secondOperand = parseFloat(currentInput);
+
+        fetch("/calculate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ a: firstOperand, b: secondOperand, operation: operator }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.result !== undefined) {
+              updateDisplay(data.result);
+              trackEvent("calculation", `${firstOperand} ${operator} ${secondOperand} = ${data.result}`);
+            } else if (data.error) {
+              updateDisplay(data.error);
+              trackEvent("error", data.error);
+            }
+          });
+
+        firstOperand = null;
+        currentInput = "";
+        operator = "";
+      }
+    }
+  });
+});
+
+// Reset button
+resetBtn.addEventListener("click", () => {
+  currentInput = "";
+  operator = "";
+  firstOperand = null;
+  updateDisplay("0");
+  trackEvent("reset", "Calculator cleared"); // GA tracking
+});
+
+// Keyboard support
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+
+  if (!isNaN(key) || key === ".") {
+    currentInput += key;
+    updateDisplay(currentInput);
+    trackEvent("key_press", key);
+  } else if (["+", "-", "*", "/", "%"].includes(key)) {
+    if (currentInput !== "") {
+      firstOperand = parseFloat(currentInput);
+      currentInput = "";
       operator = key;
-      updateScreen(operator);
+      updateDisplay(operator);
+      trackEvent("operator_key", operator);
     }
-    return;
+  } else if (key === "Enter") {
+    document.querySelector("[data-value='=']").click();
+  } else if (key === "c" || key === "C") {
+    resetBtn.click();
+  } else if (key === "Backspace") {
+    currentInput = currentInput.slice(0, -1);
+    updateDisplay(currentInput || "0");
+    trackEvent("backspace", "One char deleted");
   }
-
-  // Enter => calculate
-  if (key === "Enter" || key === "=") {
-    ev.preventDefault();
-    calculate();
-    return;
-  }
-
-  // Backspace => delete last character intelligently
-  if (key === "Backspace") {
-    ev.preventDefault();
-    if (b) {
-      b = b.slice(0, -1);
-      updateScreen(b || "0");
-    } else if (operator) {
-      operator = "";
-      updateScreen(a || "0");
-    } else if (a) {
-      a = a.slice(0, -1);
-      updateScreen(a || "0");
-    }
-    return;
-  }
-
-  // 'c' or 'C' => reset (like your CLI prompt)
-  if (key.toLowerCase() === "c") {
-    ev.preventDefault();
-    a = ""; b = ""; operator = ""; resultShown = false;
-    updateScreen("0");
-    return;
-  }
-
-  // ignore other keys
 });
