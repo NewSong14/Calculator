@@ -21,8 +21,8 @@ operations = {
 
 # Pydantic model for request
 class CalcRequest(BaseModel):
-    a: int
-    b: int
+    a: float
+    b: float
     operation: str
 
 # Serve HTML
