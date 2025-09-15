@@ -1,87 +1,113 @@
-/* ===== Modern Calculator Styles (2035 Look) ===== */
+/* calstyle.css  - Dark, modern 2035 look */
 
+/* globals */
+* { box-sizing: border-box; }
+html,body { height:100%; margin:0; font-family: "Segoe UI", Roboto, Arial, sans-serif; }
+
+/* Page */
 body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #000; /* Full black background */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#000 0%, #060606 50%, #040411 100%);
+  color:#fff;
+  -webkit-font-smoothing:antialiased;
 }
 
-/* Calculator container */
+/* Calculator shell */
 .calculator {
-  width: 340px;
-  padding: 20px;
-  border-radius: 25px;
-  background: rgba(30, 30, 30, 0.95);
-  box-shadow: 0px 0px 25px rgba(0, 255, 128, 0.25),
-              inset 0px 0px 10px rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width:360px;
+  padding:22px;
+  border-radius:22px;
+  background: linear-gradient(180deg, rgba(15,15,20,0.9), rgba(5,5,10,0.85));
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.7),
+    0 0 40px rgba(0,255,150,0.02) inset;
+  backdrop-filter: blur(6px);
+  display:flex;
+  flex-direction:column;
+  gap:18px;
 }
 
-/* Screen */
-#screen {
-  background: #111;
-  color: #0f0; /* neon green */
-  font-size: 2.5rem;
-  text-align: right;
-  padding: 15px;
-  border-radius: 15px;
-  box-shadow: inset 0 0 10px #0f0, 0 0 15px #0f08;
-  overflow-x: auto;
+/* screen */
+.screen {
+  background: #050505;
+  color: #7CFF6F; /* neon green */
+  font-family: "Courier New", monospace;
+  font-size:2.6rem;
+  padding:14px 16px;
+  border-radius:12px;
+  text-align:right;
+  box-shadow: inset 0 0 18px rgba(124,255,111,0.08), 0 6px 26px rgba(0,0,0,0.6);
+  min-height:56px;
+  overflow:auto;
 }
 
-/* Buttons grid */
+/* buttons grid */
 .buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
+  display:grid;
+  grid-template-columns: repeat(4,1fr);
+  gap:12px;
 }
 
-/* General button style */
-button {
+/* base button */
+.btn {
+  padding:14px;
+  font-size:1.2rem;
+  border-radius:10px;
   border: none;
-  border-radius: 12px;
-  font-size: 1.3rem;
-  padding: 18px;
-  cursor: pointer;
-  transition: 0.2s ease-in-out;
-  background: linear-gradient(145deg, #222, #111);
-  color: #fff;
-  box-shadow: 0px 4px 10px rgba(0,0,0,0.6);
+  cursor:pointer;
+  color:#fff;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.6);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
 }
 
-/* Hover + active effects */
-button:hover {
-  transform: scale(1.05);
-  background: linear-gradient(145deg, #333, #111);
-  box-shadow: 0px 0px 15px rgba(0,255,128,0.5);
-}
-button:active {
-  transform: scale(0.95);
-  background: #0f0;
-  color: #000;
+/* hover effect (neon glow) */
+.btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.7), 0 0 18px rgba(124,255,111,0.08);
 }
 
-/* Special button colors */
+/* press */
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+/* number buttons - subtle green */
+.num {
+  background: linear-gradient(180deg,#0b1f12,#07120b);
+  color:#bfffc9;
+}
+
+/* operator buttons - cyan */
 .op {
-  background: linear-gradient(145deg, #444, #222);
-  color: #0ff; /* cyan ops */
+  background: linear-gradient(180deg,#0a2430,#04202a);
+  color:#9ff3ff;
 }
+
+/* reset - red */
 .reset {
-  background: linear-gradient(145deg, #900, #600);
-  color: #fff;
-}
-.calculate {
+  background: linear-gradient(180deg,#4b0b0b,#2b0606);
+  color:#fff;
   grid-column: span 2;
-  background: linear-gradient(145deg, #0a0, #060);
-  color: #fff;
+}
+
+/* calculate - bright green, wider */
+.calculate {
+  background: linear-gradient(180deg,#0b5a22,#063b14);
+  color:#fff;
+  grid-column: span 2;
+  box-shadow: 0 8px 30px rgba(0,255,120,0.12);
 }
 .calculate:hover {
-  box-shadow: 0px 0px 20px rgba(0,255,0,0.8);
+  box-shadow: 0 12px 36px rgba(0,255,120,0.25);
+}
+
+/* responsive small screens */
+@media (max-width:420px) {
+  .calculator { width: 92%; padding:16px; }
+  .screen { font-size:2.2rem; }
+  .btn { padding:12px; font-size:1.1rem; }
 }
