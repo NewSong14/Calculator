@@ -1,5 +1,5 @@
 // ================================
-// Mini Calculator JS
+// Modern Calculator JS
 // ================================
 
 const display = document.getElementById("display");
@@ -58,14 +58,20 @@ buttons.forEach(btn => {
       resetCalculator();
     } else if (value === "=") {
       calculate();
-    } else if (value === "fun") {
-      alert("That button doesn’t do anything 😄");
     } else if (["+", "-", "*", "/", "//", "%"].includes(value)) {
       if (currentValue === "") return;
       firstOperand = currentValue;
       operator = value;
       currentValue = "";
       updateDisplay(operator);
+    } else if (value === "fun") {
+      const previousValue = currentValue || "0";
+      updateDisplay("That button doesn't do anything 😄");
+
+      // Show message for 2 seconds then revert
+      setTimeout(() => {
+        updateDisplay(previousValue);
+      }, 2000);
     } else {
       currentValue += value;
       updateDisplay(currentValue);
@@ -95,5 +101,5 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Initialize
+// Initialize display
 resetCalculator();
