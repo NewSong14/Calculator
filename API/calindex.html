@@ -4,11 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mini Calculator</title>
-  <link rel="stylesheet" href="static/calstyle.css" />
+
+  <!-- Load CSS from FastAPI static mount -->
+  <link rel="stylesheet" href="/static/calstyle.css" />
+
+  <!-- Google Analytics: replace G-XXXXXXXXXX with your actual G-ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEKLLF7Y6E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FEKLLF7Y6E'); // ← replace this with your actual g-id
+  </script>
 </head>
 <body>
   <div class="calculator">
-    <input type="text" id="display" disabled />
+    <input type="text" id="display" disabled value="0" />
 
     <div class="buttons">
       <button data-value="C">C</button>
@@ -38,6 +49,7 @@
     </div>
   </div>
 
-  <script src="static/calmain.js"></script>
+  <!-- Load JS from FastAPI static mount -->
+  <script src="/static/calmain.js"></script>
 </body>
 </html>
