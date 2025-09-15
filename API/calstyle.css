@@ -1,12 +1,12 @@
 /* =========================
-   Modern Professional Calculator 2025
+   Modern 2025 Calculator
    ========================= */
 
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at center, #0a0a0a, #0d0d0d); /* Deep black gradient */
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #0a0a0a; /* Deep black background */
+  font-family: "Segoe UI", "Roboto", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,7 @@ body {
 }
 
 .calculator {
-  background: #3b0e0e; /* Elegant dark burgundy */
+  background: #0f2c4f; /* Elegant dark bluish body */
   border-radius: 20px;
   padding: 30px;
   width: 340px;
@@ -28,65 +28,63 @@ body {
   width: 100%;
   height: 70px;
   font-size: 2rem;
-  color: #ffffff; /* Clean white text */
-  background: #2e0c0c; /* Slightly darker than body for contrast */
-  border: none;
-  border-radius: 14px;
-  padding: 10px 15px;
+  color: #ffffff;
+  background: rgba(20, 40, 60, 0.9);
+  border-radius: 12px;
+  padding: 10px;
   text-align: right;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
-  margin-bottom: 25px;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
 }
 
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  grid-gap: 12px;
+  margin-top: 20px;
   width: 100%;
 }
 
 button {
-  padding: 18px;
+  padding: 20px;
   font-size: 1.2rem;
-  font-weight: 600;
+  font-weight: bold;
   color: #ffffff;
-  background: #4c0f0f; /* Matching calculator body */
+  background: rgba(40, 60, 90, 0.85);
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: 0.2s all ease-in-out;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  transition: 0.2s all;
 }
 
 button:hover {
-  background: #5d1111;
+  background: rgba(60, 90, 140, 0.9);
 }
 
 button:active {
-  transform: scale(0.96);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5) inset;
+  transform: scale(0.95);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
 }
 
 .operator {
-  background: #b22222; /* Vivid deep red for operators */
+  background: #3a7ca5;
 }
 
 .operator:hover {
-  background: #d32f2f;
+  background: #5aa0cc;
 }
 
 .clear {
-  background: #e74c3c; /* Clear button */
+  background: #c94c4c;
 }
 
 .clear:hover {
-  background: #ff6b6b;
+  background: #e06666;
 }
 
 .equals {
-  background: #16a085; /* Green accent */
+  background: #4caf50;
 }
 
 .equals:hover {
-  background: #1abc9c;
+  background: #66d366;
 }
