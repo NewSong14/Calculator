@@ -1,52 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini Calculator</title>
-    <link rel="stylesheet" href="/static/calstyle.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Calculator 🚀</title>
+  <link rel="stylesheet" href="/static/calstyle.css">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FEKLLF7Y6E"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-FEKLLF7Y6E');
-    </script>
+  <!-- ✅ Google Analytics (replace G-XXXXXXX with your ID) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXX');
+  </script>
 </head>
 <body>
-    <div class="calculator-container">
-        <h1>Mini Calculator</h1>
-        <div id="screen" class="screen">0</div>
+  <div class="calculator">
+    <!-- Display Screen -->
+    <div id="screen">0</div>
 
-        <div class="buttons-grid">
-            <!-- Numbers -->
-            <button class="btn num">7</button>
-            <button class="btn num">8</button>
-            <button class="btn num">9</button>
-            <button class="btn op">/</button>
+    <!-- Buttons -->
+    <div class="buttons">
+      <!-- Numbers -->
+      <button class="num">7</button>
+      <button class="num">8</button>
+      <button class="num">9</button>
+      <button class="op">/</button>
 
-            <button class="btn num">4</button>
-            <button class="btn num">5</button>
-            <button class="btn num">6</button>
-            <button class="btn op">*</button>
+      <button class="num">4</button>
+      <button class="num">5</button>
+      <button class="num">6</button>
+      <button class="op">*</button>
 
-            <button class="btn num">1</button>
-            <button class="btn num">2</button>
-            <button class="btn num">3</button>
-            <button class="btn op">-</button>
+      <button class="num">1</button>
+      <button class="num">2</button>
+      <button class="num">3</button>
+      <button class="op">-</button>
 
-            <button class="btn num">0</button>
-            <button class="btn op">%</button>
-            <button class="btn op">//</button>
-            <button class="btn op">+</button>
+      <button class="num">0</button>
+      <button class="op">%</button>
+      <button class="op">//</button>
+      <button class="op">+</button>
 
-            <button class="btn reset">C</button>
-            <button class="btn calculate">=</button>
-        </div>
+      <!-- Reset & Calculate -->
+      <button class="reset">C</button>
+      <button class="calculate">=</button>
     </div>
+  </div>
 
-    <script src="/static/calmain.js"></script>
+  <!-- Calculator logic -->
+  <script src="/static/calculator.js"></script>
 </body>
 </html>
