@@ -1,11 +1,11 @@
 /* =========================
-   Modern Elegant Calculator 2025
+   Modern Professional Calculator 2025
    ========================= */
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #0d0d0d; /* Deep black background */
+  background: radial-gradient(circle at center, #0a0a0a, #0d0d0d); /* Deep black gradient */
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   justify-content: center;
@@ -14,73 +14,77 @@ body {
 }
 
 .calculator {
-  background: linear-gradient(145deg, #3a0d0d, #4b0f0f); /* Muted burgundy gradient */
+  background: #3b0e0e; /* Elegant dark burgundy */
   border-radius: 20px;
-  padding: 25px;
-  width: 320px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7); /* Soft shadow for depth */
+  padding: 30px;
+  width: 340px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.75), inset 0 2px 5px rgba(255,255,255,0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #display {
   width: 100%;
   height: 70px;
   font-size: 2rem;
-  color: #fff; /* White text for contrast */
-  background: #2a0b0b; /* Slightly darker for screen */
+  color: #ffffff; /* Clean white text */
+  background: #2e0c0c; /* Slightly darker than body for contrast */
   border: none;
-  border-radius: 12px;
-  padding: 10px;
+  border-radius: 14px;
+  padding: 10px 15px;
   text-align: right;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.6);
+  margin-bottom: 25px;
 }
 
 .buttons {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-top: 20px;
+  gap: 15px;
+  width: 100%;
 }
 
 button {
   padding: 18px;
   font-size: 1.2rem;
   font-weight: 600;
-  color: #fff;
-  background: #4b0f0f; /* Button color matching calculator body */
+  color: #ffffff;
+  background: #4c0f0f; /* Matching calculator body */
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
   transition: 0.2s all ease-in-out;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
 button:hover {
-  background: #5c1111; /* Slightly lighter on hover */
+  background: #5d1111;
 }
 
 button:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.5) inset;
+  transform: scale(0.96);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5) inset;
 }
 
 .operator {
-  background: #8b0000; /* Deep red for operators */
+  background: #b22222; /* Vivid deep red for operators */
 }
 
 .operator:hover {
-  background: #a50000;
+  background: #d32f2f;
 }
 
 .clear {
-  background: #c0392b; /* Red-ish for clear */
+  background: #e74c3c; /* Clear button */
 }
 
 .clear:hover {
-  background: #e74c3c;
+  background: #ff6b6b;
 }
 
 .equals {
-  background: #16a085; /* Greenish accent for = */
+  background: #16a085; /* Green accent */
 }
 
 .equals:hover {
